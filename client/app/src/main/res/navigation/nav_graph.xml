@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/chat_page_fragment">
+
+    <fragment
+        android:id="@+id/chat_page_fragment"
+        android:name="com.example.andfling.fragments.ChatFragment"
+        android:label="@string/chat_fragment_label"
+        tools:layout="@layout/fragment_chat">
+    </fragment>
+    <fragment
+        android:id="@+id/remote_page_fragment"
+        android:name="com.example.andfling.fragments.RemoteFragment"
+        android:label="@string/remote_fragment_label"
+        tools:layout="@layout/fragment_remote">
+    </fragment>
+</navigation>

@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/chat_page_fragment"
+        android:title="@string/chat_fragment_label" />
+    <item
+        android:id="@+id/remote_page_fragment"
+        android:title="@string/remote_fragment_label" />
+</menu>
