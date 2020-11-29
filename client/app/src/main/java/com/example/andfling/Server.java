@@ -27,6 +27,7 @@ public class Server extends NanoHTTPD {
     }
 
     public void startServer() throws IOException {
+        stop();
         start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
     }
 

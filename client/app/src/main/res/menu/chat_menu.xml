@@ -4,4 +4,8 @@
         android:id="@+id/action_delete_messages"
         android:title="@string/action_delete_messages"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_restart_server"
+        android:title="@string/action_restart_server"
+        app:showAsAction="never" />
 </menu>

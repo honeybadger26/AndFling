@@ -59,18 +59,17 @@ public class ChatFragment extends Fragment {
         AppDatabase db = mainActivity.getDb();
         db.messageDao().getAll().observe(getViewLifecycleOwner(), messagesClientObserver);
 
-        setAddressLabel(view);
+        startServer(view);
     }
 
 
-    private void setAddressLabel(View view) {
+    private void startServer(View view) {
         MainActivity mainActivity = (MainActivity) getActivity();
         ActionBar toolbar = mainActivity.getSupportActionBar();
         Server server = mainActivity.getServer();
 
-        try {
-            server.startServer();
-        } catch (IOException e) {
+        try { server.startServer(); }
+        catch (IOException e) {
             toolbar.setSubtitle("Server could not be started");
             return;
         }
@@ -123,6 +122,9 @@ public class ChatFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_delete_messages:
                 Executors.newSingleThreadExecutor().execute(() -> db.messageDao().deleteAll());
+                return true;
+            case R.id.action_restart_server:
+                startServer(getView());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
