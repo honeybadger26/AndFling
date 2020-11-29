@@ -111,7 +111,7 @@ public class ChatFragment extends Fragment {
             server.start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
         }
         catch (IOException e) {
-            toolbar.setSubtitle("Server could not be started");
+            toolbar.setSubtitle("Server failed to started");
             return;
         }
 
@@ -119,11 +119,11 @@ public class ChatFragment extends Fragment {
         try {
             ipAddress = server.getIPAddress(mainActivity.getApplicationContext());
         } catch (Exception e) {
-            toolbar.setSubtitle("Wi-Fi is off");
+            toolbar.setSubtitle("Wi-Fi disconnected");
             return;
         }
 
-        toolbar.setSubtitle("Running at " + ipAddress + ":" + Server.PORT);
+        toolbar.setSubtitle(ipAddress + ":" + Server.PORT);
     }
 
 
