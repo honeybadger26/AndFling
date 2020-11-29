@@ -1,4 +1,4 @@
-package com.example.andfling;
+package com.example.andfling.database;
 
 import android.content.Context;
 

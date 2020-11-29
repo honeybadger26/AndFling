@@ -5,6 +5,8 @@ import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.text.format.Formatter;
 
+import com.example.andfling.database.Message;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -24,11 +26,6 @@ public class Server extends NanoHTTPD {
             newBody.append("<div>").append(m.contents).append("</div>");
         }
         body = newBody.toString();
-    }
-
-    public void startServer() throws IOException {
-        stop();
-        start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
     }
 
     @Override

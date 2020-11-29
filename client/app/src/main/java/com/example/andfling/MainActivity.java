@@ -1,12 +1,8 @@
 package com.example.andfling;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -16,18 +12,13 @@ import androidx.navigation.ui.NavigationUI;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Window;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
+import com.example.andfling.database.AppDatabase;
+import com.example.andfling.database.Message;
 import com.google.android.material.navigation.NavigationView;
 
-import java.io.IOException;
-import java.lang.Exception;
 import java.util.List;
-import java.util.concurrent.Executors;
 
 // TODO: Different colored messages
 // TODO: Button to send clipboard contents

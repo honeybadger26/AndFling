@@ -1,4 +1,4 @@
-package com.example.andfling;
+package com.example.andfling.database;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
