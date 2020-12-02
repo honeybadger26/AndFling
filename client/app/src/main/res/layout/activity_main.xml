@@ -38,6 +38,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
+        app:theme="@style/ThemeOverlay.AppCompat.navTheme"
+        app:itemBackground="@drawable/drawer_selected_item"
         app:menu="@menu/nav_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

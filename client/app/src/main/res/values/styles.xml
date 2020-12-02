@@ -7,4 +7,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="ThemeOverlay.AppCompat.navTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorPrimary">@android:color/black</item>
+    </style>
 </resources>
