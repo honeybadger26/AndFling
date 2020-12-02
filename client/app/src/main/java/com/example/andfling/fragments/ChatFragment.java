@@ -111,7 +111,7 @@ public class ChatFragment extends Fragment {
             server.start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
         }
         catch (IOException e) {
-            toolbar.setSubtitle("Server failed to started");
+            toolbar.setSubtitle("Server failed to start");
             return;
         }
 
