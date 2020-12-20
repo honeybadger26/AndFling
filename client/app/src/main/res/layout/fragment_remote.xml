@@ -50,8 +50,11 @@
             app:layout_constraintTop_toBottomOf="@+id/addressField" />
 
         <LinearLayout
+            android:id="@+id/timeControls"
             android:layout_width="0dp"
-            android:layout_height="257dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -59,13 +62,11 @@
             app:layout_constraintTop_toBottomOf="@+id/playButton">
 
             <Button
-                android:id="@+id/spaceButton"
+                android:id="@+id/previousTrackButton"
                 android:layout_width="0dp"
                 android:layout_height="75dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
                 android:layout_weight="1"
-                android:background="@drawable/space_bar_24px" />
+                android:background="@drawable/skip_previous_24px" />
 
             <Button
                 android:id="@+id/leftButton"
@@ -86,17 +87,52 @@
                 android:background="@drawable/keyboard_arrow_right_24px" />
 
             <Button
-                android:id="@+id/toggleMediaButton"
+                android:id="@+id/nextTrackButton"
                 android:layout_width="0dp"
                 android:layout_height="75dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
                 android:layout_weight="1"
-                android:background="@drawable/swap_horiz_24px" />
-
+                android:background="@drawable/skip_next_24px" />
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/timeControls">
+
+            <Button
+                android:id="@+id/volumeDownButton"
+                android:layout_width="0dp"
+                android:layout_height="110dp"
+                android:layout_weight="1"
+                android:background="@drawable/volume_down_24px" />
+
+            <Button
+                android:id="@+id/muteButton"
+                android:layout_width="0dp"
+                android:layout_height="110dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_weight="1"
+                android:background="@drawable/volume_off_24px" />
+
+            <Button
+                android:id="@+id/volumeUpButton"
+                android:layout_width="0dp"
+                android:layout_height="110dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_weight="1"
+                android:background="@drawable/volume_up_24px" />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

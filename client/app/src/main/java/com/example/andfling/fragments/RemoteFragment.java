@@ -51,10 +51,13 @@ public class RemoteFragment extends Fragment {
         // Set button behaviours
         view.findViewById(R.id.checkButton).setOnClickListener(this::checkServer);
         view.findViewById(R.id.playButton).setOnClickListener(this::sendPlayPause);
-        view.findViewById(R.id.spaceButton).setOnClickListener(this::sendSpace);
         view.findViewById(R.id.leftButton).setOnClickListener(this::sendLeft);
         view.findViewById(R.id.rightButton).setOnClickListener(this::sendRight);
-        view.findViewById(R.id.toggleMediaButton).setOnClickListener(this::sendMediaToggle);
+        view.findViewById(R.id.previousTrackButton).setOnClickListener(this::sendPreviousTrack);
+        view.findViewById(R.id.nextTrackButton).setOnClickListener(this::sendNextTrack);
+        view.findViewById(R.id.volumeDownButton).setOnClickListener(this::sendVolumeDown);
+        view.findViewById(R.id.volumeUpButton).setOnClickListener(this::sendVolumeUp);
+        view.findViewById(R.id.muteButton).setOnClickListener(this::sendMute);
 
         EditText addressField = (EditText) view.findViewById(R.id.addressField);
         String remote_server_ip = sharedPref.getString(getString(R.string.pref_remote_server_ip), DEFAULT_SERVER_IP);
@@ -114,10 +117,6 @@ public class RemoteFragment extends Fragment {
         makeRequest(view, "/key/play");
     }
 
-    public void sendSpace(View view) {
-        makeRequest(view, "/key/space");
-    }
-
     public void sendLeft(View view) {
         makeRequest(view, "/key/left");
     }
@@ -126,7 +125,23 @@ public class RemoteFragment extends Fragment {
         makeRequest(view, "/key/right");
     }
 
-    public void sendMediaToggle(View view) {
-        makeRequest(view, "/action/toggle_media");
+    public void sendPreviousTrack(View view) {
+        makeRequest(view, "/key/prevtrack");
+    }
+
+    public void sendNextTrack(View view) {
+        makeRequest(view, "/key/nexttrack");
+    }
+
+    public void sendVolumeDown(View view) {
+        makeRequest(view, "/key/voldown");
+    }
+
+    public void sendVolumeUp(View view) {
+        makeRequest(view, "/key/volup");
+    }
+
+    public void sendMute(View view) {
+        makeRequest(view, "/key/mute");
     }
 }

@@ -25,6 +25,37 @@ module.exports = app => {
         res.sendStatus(200);
     });
 
+    app.get('/key/prevtrack', function(req, res, next) {
+        robot.keyTap('audio_prev');
+        console.log('Previous Track key pressed');
+        res.sendStatus(200);
+    });
+
+    app.get('/key/nexttrack', function(req, res, next) {
+        robot.keyTap('audio_next');
+        console.log('Next Track key pressed');
+        res.sendStatus(200);
+    });
+
+    app.get('/key/voldown', function(req, res, next) {
+        robot.keyTap('audio_vol_down');
+        console.log('Volume Down key pressed');
+        res.sendStatus(200);
+    });
+    
+    app.get('/key/volup', function(req, res, next) {
+        robot.keyTap('audio_vol_up');
+        console.log('Volume Up key pressed');
+        res.sendStatus(200);
+    });
+    
+    app.get('/key/mute', function(req, res, next) {
+        robot.keyTap('audio_mute');
+        console.log('Mute key pressed');
+        res.sendStatus(200);
+    });
+
+    // TODO: remove
     app.get('/action/toggle_media', function(req, res, next){
         robot.keyTap('space');
         robot.keyToggle('alt', 'down');
