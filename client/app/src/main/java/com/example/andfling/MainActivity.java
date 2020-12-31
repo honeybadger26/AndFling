@@ -16,9 +16,11 @@ import android.view.Window;
 
 import com.example.andfling.database.AppDatabase;
 import com.example.andfling.database.Message;
+import com.example.andfling.database.Room;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
+import java.util.concurrent.Executors;
 
 // TODO: Different colored messages
 // TODO: Button to send clipboard contents
@@ -63,10 +65,19 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
 
         server = new Server();
-        db = AppDatabase.getInstance(this);
 
-        final Observer<List<Message>> messagesServerObserver = server::setMessages;
-        db.messageDao().getAll().observe(this, messagesServerObserver);
+        db = AppDatabase.getInstance(this);
+        db.messageDao().getAll(1).observe(this, server::setMessages);
+
+        // Execute on first run TODO: Move elsewhere
+        Executors.newSingleThreadExecutor().execute(() -> {
+            List<Room> allRooms = db.roomDao().getAll();
+            if (allRooms.isEmpty()) {
+                Room defaultRoom = new Room();
+                defaultRoom.name = "default";
+                db.roomDao().insertAll(defaultRoom);
+            }
+        });
     }
 
     @Override

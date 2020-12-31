@@ -58,7 +58,10 @@ public class ChatFragment extends Fragment {
 
         final Observer<List<Message>> messagesClientObserver = this::setMessages;
         db = mainActivity.getDb();
-        db.messageDao().getAll().observe(getViewLifecycleOwner(), messagesClientObserver);
+
+        // FIXME: This currently grabs messages from room with id=0 only. Need to save the previous
+        //       room to settings?
+        db.messageDao().getAll(1).observe(getViewLifecycleOwner(), messagesClientObserver);
 
         startServer();
     }
@@ -147,6 +150,7 @@ public class ChatFragment extends Fragment {
         Message newMsg = new Message();
         newMsg.date = "now";
         newMsg.contents = msgString;
+        newMsg.roomId = 1;
         Executors.newSingleThreadExecutor().execute(() -> db.messageDao().insertAll(newMsg));
 
         messageField.setText("");

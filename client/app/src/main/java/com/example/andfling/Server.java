@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.text.format.Formatter;
 
+import com.example.andfling.database.AppDatabase;
 import com.example.andfling.database.Message;
 
 import java.io.IOException;
@@ -30,7 +31,7 @@ public class Server extends NanoHTTPD {
 
     @Override
     public Response serve(IHTTPSession session) {
-        String pageHTML = "<html><body>" + this.body + "</body></html>";
+        String pageHTML = "<html><body>" + body + "</body></html>";
         return newFixedLengthResponse(pageHTML);
     }
 

@@ -10,8 +10,8 @@ import java.util.List;
 
 @Dao
 public interface MessageDao {
-    @Query("SELECT * FROM message")
-    LiveData<List<Message>> getAll();
+    @Query("SELECT * FROM message WHERE roomId = :roomId")
+    LiveData<List<Message>> getAll(int roomId);
 
     @Insert
     void insertAll(Message... messages);
