@@ -9,13 +9,21 @@ import com.example.andfling.database.AppDatabase;
 import com.example.andfling.database.Message;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fi.iki.elonen.NanoHTTPD;
 
 public class Server extends NanoHTTPD {
     public static final int PORT = 8080;
+
+    private AppDatabase db;
     private String body = "";
+
+    public void setDb(AppDatabase db) {
+        this.db = db;
+    }
 
     public Server() {
         super(Server.PORT);
@@ -31,8 +39,37 @@ public class Server extends NanoHTTPD {
 
     @Override
     public Response serve(IHTTPSession session) {
-        String pageHTML = "<html><body>" + body + "</body></html>";
-        return newFixedLengthResponse(pageHTML);
+        Method method = session.getMethod();
+
+        if (Method.POST.equals(method)) {
+            Map<String, String> request = new HashMap<String, String>();
+            try {
+                session.parseBody(request);
+                Map<String, List<String>> params = session.getParameters();
+                Message msg = new Message();
+                msg.date = "now";
+                msg.contents  = params.get("message").get(0);
+                msg.roomId = 1;
+                db.messageDao().insertAll(msg);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ResponseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        String formComponent =
+            "<form action='' method='post'>" +
+            "   <input type='text' name='message'>" +
+            "   <input type='submit' name='submit' value='Send'>" +
+            "</form>";
+
+        return newFixedLengthResponse(
+      "<html><body>" +
+                body +
+                formComponent +
+            "</body></html>"
+        );
     }
 
     public String getIPAddress(Context context) throws Exception {

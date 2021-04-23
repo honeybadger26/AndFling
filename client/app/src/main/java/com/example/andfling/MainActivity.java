@@ -22,8 +22,6 @@ import com.google.android.material.navigation.NavigationView;
 import java.util.List;
 import java.util.concurrent.Executors;
 
-// TODO: Different colored messages
-// TODO: Button to send clipboard contents
 
 public class MainActivity extends AppCompatActivity {
 
@@ -65,8 +63,9 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(toolbar, navController, appBarConfiguration);
 
         server = new Server();
-
         db = AppDatabase.getInstance(this);
+
+        server.setDb(db);
         db.messageDao().getAll(1).observe(this, server::setMessages);
 
         // Execute on first run TODO: Move elsewhere

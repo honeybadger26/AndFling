@@ -54,15 +54,4 @@ module.exports = app => {
         console.log('Mute key pressed');
         res.sendStatus(200);
     });
-
-    // TODO: remove
-    app.get('/action/toggle_media', function(req, res, next){
-        robot.keyTap('space');
-        robot.keyToggle('alt', 'down');
-        robot.keyTap('tab');
-        robot.keyToggle('alt', 'up');
-        robot.keyTap('space');
-        console.log('Media hidden/restored');
-        res.sendStatus(200);
-    });
 }
