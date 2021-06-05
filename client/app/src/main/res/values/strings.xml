@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">AndFling</string>
 
-    <string name="action_delete_messages">Delete all messages</string>
-    <string name="action_restart_server">Restart server</string>
-
     <string name="chat_fragment_label">Chat</string>
     <string name="remote_fragment_label">Remote</string>
 
-    <string name="pref_remote_server_ip">Remote_Server_IP</string>
+    <string name="action_delete_messages">Delete all messages</string>
+    <string name="action_restart_server">Restart server</string>
+
+    <string name="pref_remote_server_ip">RemoteServerIP</string>
 </resources>

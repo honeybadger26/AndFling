@@ -1,5 +1,8 @@
 package com.example.andfling.fragments;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -8,10 +11,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,7 +34,17 @@ import java.util.concurrent.Executors;
 
 import fi.iki.elonen.NanoHTTPD;
 
+
 public class ChatFragment extends Fragment {
+    // Context Actions
+    private static final String CA_COPY = "Copy";
+    private static final String CA_DELETE = "Delete";
+
+    // ActionBar Messages
+    private static final String AM_STARTING = "Server is starting...";
+    private static final String AM_FAILEDTOSTART = "Server failed to start";
+    private static final String AM_WIFIDISCONNECTED = "Wi-Fi disconnected";
+
     private AppDatabase db;
     private Message selectedMessage;
 
@@ -50,9 +62,16 @@ public class ChatFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.getSupportActionBar().setSubtitle("Server is starting...");
+        mainActivity.getSupportActionBar().setSubtitle(AM_STARTING);
 
-        view.findViewById(R.id.sendButton).setOnClickListener(this::sendMessage);
+        ImageButton sendBtn = view.findViewById(R.id.sendButton);
+        view.findViewById(R.id.message).setOnFocusChangeListener((v, hasFocus) -> {
+            this.messageFieldFocusChanged(view, hasFocus);
+        });
+        sendBtn.setOnClickListener(this::sendButtonPressed);
+        view.findViewById(R.id.clipboardButton)
+            .setOnClickListener(this::clipboardButtonPressed);
+        sendBtn.setVisibility(View.GONE);
 
         setHasOptionsMenu(true);
 
@@ -87,18 +106,34 @@ public class ChatFragment extends Fragment {
     }
 
     @Override
-    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
+    public void onCreateContextMenu(
+        @NonNull ContextMenu menu,
+        @NonNull View v,
+        @Nullable ContextMenu.ContextMenuInfo menuInfo
+    ) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        menu.add("Delete");
+        menu.add(CA_COPY);
+        menu.add(CA_DELETE);
         selectedMessage = ((MessageTextView) v).getMessage();
     }
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         switch ((String) item.getTitle()) {
-            case "Delete":
-                Message messageToDelete = selectedMessage;
-                Executors.newSingleThreadExecutor().execute(() -> db.messageDao().delete(messageToDelete));
+            case CA_COPY:
+                ClipboardManager clipboard =
+                    (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("CopiedText", selectedMessage.contents);
+                clipboard.setPrimaryClip(clip);
+                break;
+            case CA_DELETE:
+                // Message messageToDelete = selectedMessage;
+                Executors.newSingleThreadExecutor().execute(() -> {
+                    db.messageDao().delete(selectedMessage);
+                });
+                break;
+            default:
+                break;
         }
         selectedMessage = null;
         return true;
@@ -114,7 +149,7 @@ public class ChatFragment extends Fragment {
             server.start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
         }
         catch (IOException e) {
-            toolbar.setSubtitle("Server failed to start");
+            toolbar.setSubtitle(AM_FAILEDTOSTART);
             return;
         }
 
@@ -122,7 +157,7 @@ public class ChatFragment extends Fragment {
         try {
             ipAddress = server.getIPAddress(mainActivity.getApplicationContext());
         } catch (Exception e) {
-            toolbar.setSubtitle("Wi-Fi disconnected");
+            toolbar.setSubtitle(AM_WIFIDISCONNECTED);
             return;
         }
 
@@ -141,18 +176,40 @@ public class ChatFragment extends Fragment {
         }
     }
 
-    public void sendMessage(View view) {
+    private void messageFieldFocusChanged(View view, boolean hasFocus) {
+        ImageButton sendBtn = view.findViewById(R.id.sendButton);
+        ImageButton clipboardBtn = view.findViewById(R.id.clipboardButton);
+
+        if (hasFocus) {
+            sendBtn.setVisibility(View.VISIBLE);
+            clipboardBtn.setVisibility(View.GONE);
+        } else {
+            sendBtn.setVisibility(View.GONE);
+            clipboardBtn.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void createMessage(String contents) {
+        Message newMsg = new Message();
+        newMsg.date = "now";
+        newMsg.contents = contents;
+        newMsg.roomId = 1;
+        Executors.newSingleThreadExecutor().execute(() -> db.messageDao().insertAll(newMsg));
+    }
+
+    public void sendButtonPressed(View view) {
         EditText messageField = getView().findViewById(R.id.message);
         String msgString = messageField.getText().toString();
 
         if (msgString.equals("")) return;
-
-        Message newMsg = new Message();
-        newMsg.date = "now";
-        newMsg.contents = msgString;
-        newMsg.roomId = 1;
-        Executors.newSingleThreadExecutor().execute(() -> db.messageDao().insertAll(newMsg));
-
         messageField.setText("");
+        createMessage(msgString);
+    }
+
+    public void clipboardButtonPressed(View vew) {
+        ClipboardManager clipboard =
+            (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData.Item item = clipboard.getPrimaryClip().getItemAt(0);
+        createMessage(item.getText().toString());
     }
 }
