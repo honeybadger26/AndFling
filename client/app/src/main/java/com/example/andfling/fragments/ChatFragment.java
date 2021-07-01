@@ -127,9 +127,9 @@ public class ChatFragment extends Fragment {
                 clipboard.setPrimaryClip(clip);
                 break;
             case CA_DELETE:
-                // Message messageToDelete = selectedMessage;
+                Message messageToDelete = selectedMessage;
                 Executors.newSingleThreadExecutor().execute(() -> {
-                    db.messageDao().delete(selectedMessage);
+                    db.messageDao().delete(messageToDelete);
                 });
                 break;
             default:
